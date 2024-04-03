@@ -1,0 +1,61 @@
+<!-- plugins:js -->
+<script src="/admin/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="/admin/vendors/chart.js/Chart.min.js"></script>
+<script src="/admin/vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="/admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="/admin/js/dataTables.select.min.js"></script>
+
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/admin/js/off-canvas.js"></script>
+<script src="/admin/js/hoverable-collapse.js"></script>
+<script src="/admin/js/template.js"></script>
+<script src="/admin/js/settings.js"></script>
+<script src="/admin/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="/admin/js/jquery.cookie.js" type="text/javascript"></script>
+<script src="/admin/js/dashboard.js"></script>
+<script src="/admin/js/Chart.roundedBarCharts.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".loader").hide();
+  });
+
+  function adminLogout() {
+    swal(
+      {
+        title: `Are you sure you want to logout?`,
+        type: "warning",
+        html: true,
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: `Logout`,
+        closeOnConfirm: false,
+      },
+      function (isConfirm) {
+        if (!isConfirm) return;
+        $.ajax({
+          url: `/admin/logout`,
+          type: "GET",
+          dataType: "html",
+          data: {
+            status,
+          },
+          success: function (result) {
+            window.location.href = "<%=process.env.ADMIN_BASE_URL%>/logout";
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            swal(`Error in logout!`, "Please try again", "error");
+          },
+        });
+      }
+    );
+  }
+</script>

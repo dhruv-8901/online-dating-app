@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('layouts/header_navbar') %>
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial -->
+        <%- include('layouts/sidebar') %>
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="col-md-12 grid-margin transparent">
+              <div
+                class="row mb-5 border shadow p-4 pt-5 rounded position-relative"
+              >
+                <h4
+                  class="position-absolute px-3"
+                  style="width: fit-content; top: -10px; background: #f5f7ff"
+                >
+                  User
+                </h4>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-tale">
+                    <div class="card-body">
+                      <p class="mb-4">Daily New Users</p>
+                      <p class="fs-30 mb-2"><%= dailyNewUser %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Monthly New Users</p>
+                      <p class="fs-30 mb-2"><%= monthlyNewUser %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-tale">
+                    <div class="card-body">
+                      <p class="mb-4">Daily Active Users</p>
+                      <p class="fs-30 mb-2"><%= dailyActiveUser %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Monthly Active Users</p>
+                      <p class="fs-30 mb-2"><%= monthlyActiveUser %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-tale">
+                    <div class="card-body">
+                      <p class="mb-4">Daily Unsubscribed Users</p>
+                      <p class="fs-30 mb-2"><%= dailyUnsubscribedUser %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Monthly Unsubscribed Users</p>
+                      <p class="fs-30 mb-2"><%= monthlyUnsubscribedUser %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row mb-5 border shadow p-4 pt-5 rounded position-relative"
+              >
+                <h4
+                  class="position-absolute px-3"
+                  style="width: fit-content; top: -10px; background: #f5f7ff"
+                >
+                  Dates
+                </h4>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Daily New Dates</p>
+                      <p class="fs-30 mb-2"><%= dailyNewDates %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Weekly New Dates</p>
+                      <p class="fs-30 mb-2"><%= weeklyNewDates %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Monthly New Dates</p>
+                      <p class="fs-30 mb-2"><%= monthlyNewDates %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row mb-5 border shadow p-4 pt-5 rounded position-relative"
+              >
+                <h4
+                  class="position-absolute px-3"
+                  style="width: fit-content; top: -10px; background: #f5f7ff"
+                >
+                  Matches
+                </h4>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Weekly New Matches</p>
+                      <p class="fs-30 mb-2"><%= weeklyNewMatches %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Monthly New Matches</p>
+                      <p class="fs-30 mb-2"><%= monthlyNewMatches %></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+
+    <%- include('layouts/footer') %>
+
+    <!-- End custom js for this page-->
+  </body>
+
+  <!-- Mirrored from demo.bootstrapdash.com/skydash-free/template/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 09 Jan 2024 05:16:17 GMT -->
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online dating Chat</title>
+    <link rel="stylesheet" href="/chat/style.css" />
+  </head>
+  <body>
+    <section class="info-section">
+      <div class="bg-color">
+        <h3>SenderId - <span id="senderId"></span></h3>
+        <h3>ReceiverId - <span id="receiverId"></span></h3>
+      </div>
+    </section>
+    <main class="body">
+      <section class="chat__section">
+        <div class="brand">
+          <!-- <img height="40" src="/icons/logo.png" alt="MyDoc" /> -->
+          <h2 style="color: #000000">Online dating</h2>
+        </div>
+
+        <p id="error" class="error-msg" style="margin: auto; color: red"></p>
+        <div class="message__area"></div>
+        <div class="text-type">
+          <textarea
+            id="textarea"
+            cols="30"
+            rows="1"
+            placeholder="Write a message..."
+          ></textarea>
+          <!-- <img src="/chat/paper-plane_482962.png" alt="" /> -->
+        </div>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        let name;
+        let textarea = document.querySelector("#textarea");
+        let messageArea = document.querySelector(".message__area");
+        var roomId = "";
+
+        //one to one chat
+
+        do {
+          senderId = prompt("Please enter sender id");
+          receiverId = prompt("Please enter receiver id");
+        } while (!senderId || !receiverId);
+
+        $("#senderId").text(senderId);
+        $("#receiverId").text(receiverId);
+
+        textarea.addEventListener("keyup", (e) => {
+          const inputValue = e.target.value.trim();
+          if (e.key === "Enter") {
+            if (!$("#error").text() && inputValue !== "") {
+              sendMessage(inputValue);
+            }
+          }
+        });
+
+        const socket = io();
+
+        socket.on("connect", () => {
+          $("#error").text("");
+          socket.emit("createRoom", { senderId, receiverId });
+        });
+
+        socket.on("roomConnected", (connectedRoomId) => {
+          console.log("connectedRoomId", connectedRoomId);
+          roomId = connectedRoomId;
+        });
+
+        // Send messages
+        function sendMessage(message) {
+          const msg = {
+            name,
+            roomId,
+            message: message.trim(),
+            senderId,
+            receiverId,
+          };
+
+          appendMessage(msg, "outgoing");
+          textarea.value = "";
+          scrollToBottom();
+
+          socket.emit("sendMessage", msg);
+        }
+
+        //Append new messages
+        function appendMessage(msg, type) {
+          let mainDiv = document.createElement("div");
+          let className = type;
+          mainDiv.classList.add(className, "message");
+
+          let markup = `
+          <h4>${type == "incoming" ? "User 2" : "User 1"}</h4>
+          <p style="word-wrap: break-word;">${msg.message}</p>
+      `;
+          mainDiv.innerHTML = markup;
+          messageArea.appendChild(mainDiv);
+        }
+
+        //New message receive
+        socket.on("newMessage", (message) => {
+          socket.emit("seenMessage", { messageId: message.messageId });
+          appendMessage(message, "incoming");
+
+          scrollToBottom();
+        });
+
+        socket.on("disconnect", function () {
+          console.log("A user disconnected");
+          $("#error").text("Disconnected!").show();
+        });
+        // scroll to bottom
+        function scrollToBottom() {
+          messageArea.scrollTop = messageArea.scrollHeight;
+        }
+      });
+    </script>
+  </body>
+</html>

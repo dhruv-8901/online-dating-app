@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('layouts/header_navbar') %>
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <%- include('layouts/sidebar') %>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="card col-sm-6 col-12">
+              <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Daily swipes limit setting</h4>
+                    <form class="form-sample" id="swipeLimit" method="post">
+                      <div class="form-group">
+                        <input
+                          type="number"
+                          class="form-control col-sm-4 col-12 mb-2"
+                          id="limit"
+                          name="limit"
+                          value="<%= limit %>"
+                          placeholder="5"
+                        />
+                      </div>
+                      <button type="submit" class="btn btn-primary mb-2">
+                        Submit
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <%- include('layouts/footer') %>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+      integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $(function () {
+          $("#swipeLimit").validate({
+            // Specify validation rules
+            rules: {
+              limit: {
+                required: true,
+              },
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

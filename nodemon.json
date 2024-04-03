@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "**/*.js",
+    "swagger.yaml",
+    ".env"
+  ],
+  "ignore": [
+    "dist"
+  ],
+  "exec": "npm run babel-node"
+}

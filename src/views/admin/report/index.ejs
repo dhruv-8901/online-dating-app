@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layouts/header') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('../layouts/header_navbar') %>
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <%- include('../layouts/sidebar') %>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="card">
+              <div class="card-body">
+                <h2><center>Reported Users</center></h2>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table" id="myTable">
+                        <thead>
+                          <tr>
+                            <th>Order #</th>
+                            <th>User's Name</th>
+                            <th>Reportee's Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <%- include('../layouts/footer') %>
+    <script>
+      $(document).ready(function () {
+        var url = window.location.href;
+        function renderWithHyphen(data) {
+          return data ? data : "-";
+        }
+        $("#myTable").DataTable({
+          processing: true,
+          ordering: false,
+          scroller: true,
+          searching: true,
+          scrollY: "500px",
+          scrollCollapse: true,
+          serverSide: true,
+          ajax: {
+            url: url + "/list",
+          },
+          columns: [
+            {
+              render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+              },
+            },
+            { data: "userDetails.name", render: renderWithHyphen },
+            { data: "reporteeDetails.name", render: renderWithHyphen },
+            {
+              data: "reportedAt",
+              render: function (data, type, row) {
+                var date = new Date(row.reportedAt);
+                var options = {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                };
+
+                var formattedDate = date.toLocaleString("en-AU", options);
+                return formattedDate;
+              },
+            },
+            {
+              data: "reportedAt",
+              render: function (data, type, row) {
+                var date = new Date(row.reportedAt);
+                var options = {
+                  timeZone: "Australia/Sydney",
+                  hour12: true,
+                  hour: "2-digit",
+                  minute: "2-digit",
+                };
+
+                var formattedDate = date.toLocaleString("en-AU", options);
+                return formattedDate;
+              },
+            },
+          ],
+        });
+      });
+    </script>
+  </body>
+</html>

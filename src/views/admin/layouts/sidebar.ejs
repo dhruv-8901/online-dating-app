@@ -1,0 +1,94 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li
+      class="nav-item <%= (typeof page !== 'undefined' && page == 'dashboard') ? 'active' : '' %>"
+    >
+      <a class="nav-link" href="/admin/">
+        <i class="icon-grid menu-icon ti-dashboard"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li
+      class="nav-item <%= (typeof page !== 'undefined' && page == 'users') ? 'active' : '' %>"
+    >
+      <a
+        class="nav-link"
+        data-toggle="collapse"
+        href="#ui-users"
+        aria-expanded="false"
+        aria-controls="ui-users"
+      >
+        <i class="icon-grid menu-icon ti-user"></i>
+        <span class="menu-title" style="margin-top: 5px">Users</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="ui-users">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/user">All Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/user/pending">Pending Users</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li
+      class="nav-item <%= (typeof page !== 'undefined' && page == 'date') ? 'active' : '' %>"
+    >
+      <a
+        class="nav-link"
+        data-toggle="collapse"
+        href="#ui-basic"
+        aria-expanded="false"
+        aria-controls="ui-basic"
+      >
+        <i class="icon-layout menu-icon"></i>
+        <span class="menu-title" style="margin-top: 5px">Date</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="ui-basic">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/date">Dates</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/date/cancelled">Cancelled Dates</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li
+      class="nav-item <%= (typeof page !== 'undefined' && page == 'venue') ? 'active' : '' %>"
+    >
+      <a class="nav-link" href="/admin/venue">
+        <i class="icon-grid menu-icon ti-home"></i>
+        <span class="menu-title">Venue</span>
+      </a>
+    </li>
+    <li
+      class="nav-item <%= (typeof page !== 'undefined' && page == 'report') ? 'active' : '' %>"
+    >
+      <a class="nav-link" href="/admin/report">
+        <i class="icon-grid menu-icon ti-receipt"></i>
+        <span class="menu-title">Reports</span>
+      </a>
+    </li>
+    <li
+      class="nav-item <%= (typeof page !== 'undefined' && page == 'Swipes limit') ? 'active' : '' %>"
+    >
+      <a class="nav-link" href="/admin/user/swipe-limit">
+        <i class="icon-grid menu-icon ti-settings"></i>
+        <span class="menu-title">Swipes limit</span>
+      </a>
+    </li>
+    <li
+      class="nav-item <%= (typeof page !== 'undefined' && page == 'logout') ? 'active' : '' %>"
+    >
+      <a class="nav-link" onclick="adminLogout()">
+        <i class="icon-grid menu-icon ti-power-off"></i>
+        <span class="menu-title">Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>

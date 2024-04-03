@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layouts/header') %>
+  <body>
+    <div class="container-scroller">
+      <%- include('../layouts/header_navbar') %>
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <%- include('../layouts/sidebar') %>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="card">
+              <div class="card-body">
+                <div class="col-12 d-flex justify-content-end">
+                  <a href="/admin/venue/add" class="px-5 btn btn-dark">Add</a>
+                </div>
+                <h2><center>Venues list</center></h2>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table" id="myTable">
+                        <thead>
+                          <tr>
+                            <th>Order #</th>
+                            <th style="width: 800px">venue</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <%- include('../layouts/footer') %>
+    <script type="text/javascript">
+      function deleteVenue(venueId) {
+        swal(
+          {
+            title: `Are you sure you want to delete this venue`,
+            type: "warning",
+            html: true,
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: `Yes, Delete It!`,
+            closeOnConfirm: false,
+          },
+          function (isConfirm) {
+            if (!isConfirm) return;
+            $.ajax({
+              url: `/admin/venue/delete/${venueId}`,
+              type: "delete",
+              dataType: "html",
+              data: {
+                status,
+              },
+              success: function (result) {
+                swal("Done!", `Venue has been deleted!`, "success");
+                $("#myTable").DataTable().ajax.reload();
+              },
+              error: function (xhr, ajaxOptions, thrownError) {
+                swal(`Error in deleting venue!`, "Please try again", "error");
+              },
+            });
+          }
+        );
+      }
+    </script>
+    <script>
+      $(document).ready(function () {
+        var url = window.location.href;
+        function renderWithHyphen(data) {
+          return data ? data : "-";
+        }
+        $("#myTable").DataTable({
+          processing: true,
+          ordering: false,
+          scroller: true,
+          searching: true,
+          scrollY: "500px",
+          scrollCollapse: true,
+          serverSide: true,
+          ajax: {
+            url: url + "/list",
+          },
+          columns: [
+            {
+              render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+              },
+            },
+            { data: "venue", render: renderWithHyphen },
+            {
+              render: function (data, type, row) {
+                return `<a href="/admin/venue/edit/${row._id}" class="px-3 mr-2 badge badge-success">Edit</a> <div class=" px-3 badge badge-danger" onClick="deleteVenue('${row._id}')">Delete </div>`;
+              },
+            },
+          ],
+        });
+      });
+    </script>
+  </body>
+</html>

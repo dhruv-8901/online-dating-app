@@ -1,0 +1,1456 @@
+openapi: 3.0.0
+
+info:
+  title: API Title
+  description: </br><img src="/admin/images/favicon.png" alt="Online dating app" width="100" height="100"/> </br></br> OpenAPI specification for Online dating application
+  version: 1.0.0
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          maxLength: 26
+          example: John
+        email:
+          type: string
+          example: dhruv@mailinator.com
+        dateOfBirth:
+          type: string
+          example: "2020-12-28"
+          description: (YYYY-MM-DD)
+        isEmailVerified:
+          type: boolean
+          example: true
+          description: (true = Verified, false = Not verified)
+        isProfileUpdated:
+          type: boolean
+          example: true
+          description: (true = profile updated, false = profile skip)
+        gender:
+          type: integer
+          example: 1
+          description: (0 = Male, 1 = Female, 2 = Non-binary)
+        providerType:
+          type: string
+          example: null
+          description: (apple, google) => default = null
+        profilePicture:
+          type: string
+          example: http://example.com/static/file_697929e031dfb468c04126e26845f03c1610166680033.jpeg
+        lastLoginAt:
+          type: integer
+          example: 1656546127000
+
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+
+  responses:
+    GetTokens:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: ey2ace6et98s1ncjasd
+                  refreshToken:
+                    type: string
+                    example: def50"200"75819e4748adef0566c3b41437f2b7e3
+    success:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: success
+    refreshTokenResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  authentication:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJkaHJ1dkBnbWFpbC5jb20iLCJ0b2tlbiI6IjEyODQ4NjY5YTJmN2FlNTczNTNhY2U3ZjgwODJhYzI3MDg1ZWYwYzU2NzMyYjhjMDNkOGFhY2ZkY2UzMDIzNzUiLCJpYXQiOjE2NDk4MzA5ODEsImV4cCI6MTY4MTM4ODU4MX0.BwhIAYdO0-N84q3UwxsdYtVBUgsJBfAfGnSyBXcNC9c
+                      refreshToken:
+                        type: string
+                        example: 496005929c15685ca553e1d728bea49dd7472abb6e06d22bb8096f220240f84b
+                      expireAt:
+                        type: number
+                        example: 1683097795
+    GetUserBudgetCopiedResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Budget copied successfully
+
+    GetUserNetworthCopiedResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Networth copied successfully
+
+    GetUserBudgetSourceDeleteResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: source has been deleted
+
+    GetLoginResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  _id:
+                    type: integer
+                    example: 643d4d03ae23825006d11937
+                  firstName:
+                    type: string
+                    example: John
+                  lastName:
+                    type: string
+                    example: wick
+                  profileImage:
+                    type: string
+                    example: http://example.com/static/file_697929e031dfb468c04126e26845f03c1610166680033.jpeg
+                  type:
+                    type: number
+                    example: 2
+                  email:
+                    type: string
+                    example: john@gmail.com
+                  bio:
+                    type: string
+                    example: My best friend has a fur and a tail. Dogs are not our whole life, but they make our lives whole 🐶🙂
+                  address:
+                    type: string
+                    example: NY, Kellogg Rd New Hartford, 24
+                  latitude:
+                    type: string
+                    example: "21.1702"
+                  longitude:
+                    type: string
+                    example: "21.1702"
+                  auth:
+                    type: object
+                    properties:
+                      tokenType:
+                        type: string
+                        example: Bearer
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1LCJwaG9uZV9udW1iZXIiOiIrOTEgNzk5MDA1MzE3MCIsImZpcnN0X25hbWUiOiJ0ZXN0c2RzZHNkc2RzZHNkcyIsI
+                      refreshToken:
+                        type: string
+                        example: DGptc0miW9AXKCDl6H7RMMHlDcruUbPrwOowslSHiVOyYYJeFhRW1F2XKIrrfUCRIoG1lRMUfEQKSxX3TApl1Aw6641YkAGJhi6yQgr06PrZZuPFddYBvr
+                      expiresIn:
+                        type: integer
+                        example: 31536000
+    User:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  _id:
+                    type: integer
+                    example: 643d4d03ae23825006d11937
+                  firstName:
+                    type: string
+                    example: John
+                  lastName:
+                    type: string
+                    example: wick
+                  profileImage:
+                    type: string
+                    example: http://example.com/static/file_697929e031dfb468c04126e26845f03c1610166680033.jpeg
+                  type:
+                    type: number
+                    example: 2
+                  email:
+                    type: string
+                    example: john@gmail.com
+                  isEmailVerified:
+                    type: boolean
+                    example: true
+                  bio:
+                    type: string
+                    example: My best friend has a fur and a tail. Dogs are not our whole life, but they make our lives whole 🐶🙂
+                  address:
+                    type: string
+                    example: NY, Kellogg Rd New Hartford, 24
+                  latitude:
+                    type: string
+                    example: "21.1702"
+                  longitude:
+                    type: string
+                    example: "21.1702"
+    UnauthorizedError:
+      description: |
+        - Invalid credentials
+        - Expired access or refresh token
+        - Revoked access or refresh token
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Unauthorized
+    NoContent:
+      description: |
+        - Empty body content
+      content:
+        application/json:
+          schema:
+            type: object
+    UnprocessableEntity:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            type: object
+    Conflict:
+      description: Account already registered with given email
+      content:
+        application/json:
+          schema:
+            type: object
+    PreconditionFailedException:
+      description: Account does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+
+    GetForgotPasswordResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: true
+              message:
+                type: string
+                example: Please check your email inbox. We sent you an email with reset password link.
+
+paths:
+  /auth/register:
+    post:
+      summary: Register Service
+      description: Register Service
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                countryCode:
+                  type: string
+                  example: "+91"
+                phone:
+                  type: number
+                  example: 7457457459
+
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /auth/email:
+    post:
+      summary: Add email
+      description: Add email
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: dhruv@mailinator.com
+
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /auth/login:
+    post:
+      summary: Login Service
+      description: Login Service
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                countryCode:
+                  type: string
+                  example: "+91"
+                phone:
+                  type: number
+                  example: 7457457459
+                deviceId:
+                  type: string
+                  example: QKQ1.191014.001
+
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /auth/refresh-token:
+    post:
+      summary: Refresh token
+      deprecated: false
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  example: m4Ot2bGy71yHigCwSMJJKhxLFEBzkp+aXJIsYkRemM7u7L1/1Stmga3wwMHdmTAapOQB6ngprbhJu/QjN8gYdl0KDKGPX9aUPD2Wd0mFeX8=
+      responses:
+        "200":
+          $ref: "#/components/responses/refreshTokenResponse"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: This refresh token is expired, please login
+
+  /auth/otp-verification:
+    post:
+      summary: user otp verification
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        |  1  | ***Phone***  |
+        |  2  |  ***Email***   |
+        |  3  |  ***Login***   |
+
+        **Note - currently for phone number verification use static 7777 OTP for that.**
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: number
+                  example: 1
+                otp:
+                  type: number
+                  example: 1234
+                countryCode:
+                  type: string
+                  example: "+91"
+                phone:
+                  type: number
+                  example: 7457457459
+                email:
+                  type: string
+                  example: dhruv@mailinator.com
+                deviceId:
+                  type: string
+                  example: QKQ1.191014.001
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /auth/resend-otp:
+    post:
+      summary: Resend OTP
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        |  1  | ***Phone***  |
+        |  2  |  ***Email***   |
+
+        **Note - For login resend otp you need to use same login api for that**
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: number
+                  example: 1
+                countryCode:
+                  type: string
+                  example: "+91"
+                phone:
+                  type: number
+                  example: 7457457459
+                email:
+                  type: string
+                  example: dhruv@mailinator.com
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /auth/logout:
+    post:
+      description: Logout from the application
+      summary: Logout from the application
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceId:
+                  type: string
+                  example: ABKOIODUJIOSWNJC
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /auth/delete-by-phone:
+    post:
+      summary: Delete account by phone only for the develeopment and ask password from backend developer
+      description: Delete account by phone only for the develeopment and ask password from backend developer
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                countryCode:
+                  type: string
+                  example: "+91"
+                phone:
+                  type: number
+                  example: 7457457459
+                password:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /user:
+    get:
+      summary: Get profile details
+      description: |
+        | accountStatus | Meaning           |
+        | ------------- |:-------------:|
+        | 0|     ***Active*** |
+        | 1|     ***Pause*** |
+
+        | approvedStatus | Meaning           |
+        | ------------- |:-------------:|
+        | 0|     ***Pending*** |
+        | 1|     ***Approved*** |    
+        | 2|     ***Rejected*** |
+
+        **"IsBlocked" indicates whether the user has been blocked by the admin or not.**
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/User"
+
+    put:
+      summary: Update User
+      description: |
+        | gender        | Meaning           |
+        | ------------- |:-------------:|
+        | 0|     ***Man*** |
+        | 1|     ***Woman*** |
+        | 2|     ***Nonbinary*** |
+
+        | likeToDate        | Meaning           |
+        | ------------- |:-------------:|
+        | 0|     ***Men*** |
+        | 1|     ***Women*** |
+        | 2|     ***Nonbinary*** |
+
+
+        | day        | Meaning           |
+        | ------------- |:-------------:|
+        | 0| ***MON*** |
+        | 1| ***TUE*** |
+        | 2| ***WED*** |
+        | 3| ***THU*** |
+        | 4| ***FRI*** |
+        | 5| ***SAT*** |
+        | 6| ***SUN*** |
+
+
+        | status        | Required field           |
+        | ------------- |:-------------:|
+        | 1| ***name*** |
+        | 2| ***birthDate*** |
+        | 3| ***hieghtInFeet , hieghtInInch*** |
+        | 4| ***address , latitude , longitude*** |
+        | 5| ***gender*** |
+        | 6| ***likeToDate*** |   
+        | 7| ***agePreferenceFrom , agePreferenceTo*** |        
+        | 8| ***photos*** |        
+        | 9| ***daysToMeet*** |        
+        | 10| ***referralCode , socialLink*** |  
+        | 11| ***For normal update User in that all field are optional*** |
+
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: number
+                  example: 1
+                name:
+                  type: string
+                  example: "Jhon"
+                birthDate:
+                  type: number
+                  example: 977728320000
+                hieghtInFeet:
+                  type: number
+                  example: 5
+                hieghtInInch:
+                  type: number
+                  example: 11
+                address:
+                  type: string
+                  example: Bondi Beach, Australia
+                latitude:
+                  type: number
+                  example: 21.170240
+                longitude:
+                  type: number
+                  example: 72.831062
+                gender:
+                  type: array
+                  items:
+                    type: number
+                    example: 1
+                likeToDate:
+                  type: array
+                  items:
+                    type: number
+                    example: 1
+                agePreferenceFrom:
+                  type: number
+                  example: 20
+                agePreferenceTo:
+                  type: number
+                  example: 30
+                photos:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                daysToMeet:
+                  type: array
+                  items:
+                    type: number
+                    example: 1
+                socialLink:
+                  type: string
+                  example: red
+                referralCode:
+                  type: string
+                  example: red1001
+                email:
+                  type: string
+                  example: dhruv@mailinator.com
+                countryCode:
+                  type: string
+                  example: "+91"
+                phone:
+                  type: number
+                  example: 7457457459
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "412":
+          $ref: "#/components/responses/PreconditionFailedException"
+
+  /user/photo/{photoId}:
+    delete:
+      summary: Delete photo by id
+      tags:
+        - User
+      description: Delete photo by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: photoId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /user/account:
+    post:
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***Pause*** |
+        | 2|     ***Delete*** |
+        | 3|     ***Active*** |
+      summary: User account action
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: number
+                  example: 1
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /user/tab-bar:
+    get:
+      summary: Get tab bar data
+      description: Get tab bar data
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/User"
+
+  /people:
+    get:
+      summary: Get people list
+      tags:
+        - People
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: perPage
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /people/{peopleId}:
+    get:
+      summary: Get people data from peopleId
+      tags:
+        - People
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: peopleId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /people/likes-you:
+    get:
+      summary: Get list of people which likes you
+      tags:
+        - People
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: perPage
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /people/reaction/{peopleId}:
+    post:
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***Like*** |
+        | 2|     ***Dislike*** |
+      summary: Add reaction on to the people
+      tags:
+        - People
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: peopleId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: number
+                  example: 1
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /people/match/reaction/{peopleId}:
+    post:
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***Like*** |
+        | 2|     ***Dislike*** |
+      summary: Add reaction on to the liked people
+      tags:
+        - People
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: peopleId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: number
+                  example: 1
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /people/action/{peopleId}:
+    post:
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***Block*** |
+        | 2|     ***Unblock*** |
+      summary: Block unblock people by id
+      tags:
+        - People
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: peopleId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: number
+                  example: 1
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /people/report/{peopleId}:
+    post:
+      description: report people by id
+      summary: report people by id
+      tags:
+        - People
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: peopleId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /date:
+    get:
+      summary: Get date-idea list
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***Date Ideas*** |
+        | 2|     ***Upcoming Date*** |   
+        | 3|     ***Past Dates*** |
+        | 4|     ***Date Ideas , Upcoming Date*** |
+
+        | status        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***SENT*** |
+        | 2|     ***CONFIRM*** |   
+        | 3|     ***CANCEL*** |
+        | 4|     ***RESCHEDULE*** |
+        | 5|     ***COMPLETED*** |
+
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          required: false
+          schema:
+            enum:
+              - 1
+              - 2
+              - 3
+              - 4
+            type: number
+            example: 1
+        - in: query
+          name: perPage
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /date/venues:
+    get:
+      summary: Get venues list
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /date/venues/available-date/{venueId}:
+    get:
+      summary: Get venue available date by venueId
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: venueId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /date/venues/available-time/{venueId}:
+    get:
+      summary: Get venue available date by venueId
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: venueId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: number
+            example: 1712376530000
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/success"
+
+  /date/{dateId}:
+    post:
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 2|     ***confirm*** |
+        | 3|     ***cancel*** |
+
+      summary: Confirm date idea or cancel the date after confirmation
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: dateId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: number
+                  example: 2
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /date/idea/{peopleId}:
+    post:
+      description: Give date idea to the poeple who likes you
+      summary: Give date idea to the poeple who likes you
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: peopleId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                venueId:
+                  type: string
+                  example: 658a9fdaa2659231e51849f1
+                dateAndTime:
+                  type: number
+                  example: 1706340907000
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /date/idea/change/{dateId}:
+    put:
+      description: Change date idea
+      summary: Change date idea
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: dateId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                venueId:
+                  type: string
+                  example: 658a9fdaa2659231e51849f1
+                dateAndTime:
+                  type: number
+                  example: 1706340907000
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /date/idea/cancel/{dateId}:
+    put:
+      description: Cancel date idea
+      summary: Cancel date idea
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: dateId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /date/suggestion/idea/{dateId}:
+    post:
+      description: Give date idea to suggested people
+      summary: Give date idea to suggested people
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: dateId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                venueId:
+                  type: string
+                  example: 658a9fdaa2659231e51849f1
+                dateAndTime:
+                  type: number
+                  example: 1706340907000
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /date/post-confirmation/{dateId}:
+    post:
+      summary: Date post confirmation
+      description: |
+        | isMeet        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***Yes*** |
+        | 2|     ***No*** |
+
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 1|     ***Partner didn’t show up*** |
+        | 2|     ***I didn’t show up*** |
+        | 3|     ***We decided to cancel*** |
+
+        **"type" is only allowed when isMeet is 2**
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: dateId
+          required: true
+          schema:
+            type: string
+            example: 658a9fdaa2659231e51849f1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isMeet:
+                  type: number
+                  example: 2
+                type:
+                  type: number
+                  example: 1
+      responses:
+        "200":
+          $ref: "#/components/responses/success"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /date/post-confirmation/pending:
+    get:
+      summary: Get pending post confirmation dates
+      description: Get pending post confirmation dates
+      tags:
+        - Dates
+      security:
+        - bearerAuth: []
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "200":
+          $ref: "#/components/responses/User"
+
+  /fcm/token:
+    post:
+      description: |
+        - Register device token
+        <table style='border: 1px solid;width:auto;'>
+        <tr><td style='padding: 10px 10px 10px 10px;'><b>platform</b></td><td style='padding: 10px 10px 10px 10px;'><b>value</b></td></tr>
+        <tr><td style='padding: 10px 10px 10px 10px;'>iOS</td><td style='padding: 10px 10px 10px 10px;'>iOS</td></tr>
+        <tr><td style='padding: 10px 10px 10px 10px;'>Android</td><td style='padding: 10px 10px 10px 10px;'>Android</td></tr>
+        </table>
+      summary: Register device token
+      tags:
+        - FCM
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  example: def5020075819e4748adefe1f860566c3b41437f2b7e396db025b4d384e6b5db5911a3cfc22
+                deviceId:
+                  type: string
+                  example: e1f860566c3b41437f2b7e
+                platform:
+                  type: string
+                  example: iOS
+              required:
+                - token
+                - deviceId
+                - platform
+      responses:
+        "200":
+          $ref: "#/components/responses/GetTokens"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /chat:
+    get:
+      summary: Get all chat users list
+      description: |
+        | type        | Meaning           |
+        | ------------- |:-------------:|
+        | 2|     ***Upcoming Date*** |   
+        | 3|     ***Past Dates*** |
+      tags:
+        - Chat
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: type
+          required: false
+          schema:
+            enum:
+              - 2
+              - 3
+            type: number
+            example: 2
+        - in: query
+          name: perPage
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+
+  /chat/{userId}:
+    get:
+      summary: Get all chat list by userId
+      description: Get all chat list by userId
+      tags:
+        - Chat
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: 64afac4d03c466b3a968f0d9
+        - in: query
+          name: dateId
+          required: true
+          schema:
+            type: string
+            example: 64afac4d03c466b3a968f0d9
+        - in: query
+          name: perPage
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+      responses:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"

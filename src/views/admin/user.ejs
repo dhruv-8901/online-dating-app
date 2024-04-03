@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header') %>
+  <body>
+    <style>
+      .dataTables_wrapper
+        .dataTables_scroll
+        div.dataTables_scrollBody
+        > table
+        > tbody
+        > tr
+        > td {
+        text-align: center !important;
+      }
+      table.dataTable tbody th,
+      table.dataTable tbody td {
+        text-align: center !important;
+      }
+      th {
+        text-align: center !important;
+      }
+
+      #image {
+        display: none;
+      }
+
+      /* Set cursor to pointer for images */
+      .thumbnail {
+        cursor: pointer;
+      }
+      .modal.fade .modal-dialog {
+        justify-content: center;
+        margin: 0 auto;
+        height: 100vh;
+      }
+
+      .modal .modal-dialog .modal-content .modal-body {
+        padding: 0;
+      }
+      .modal-body img {
+        width: 400px !important;
+        height: 400px !important;
+        padding: 20px !important;
+        border-radius: 0px !important;
+      }
+      .modal-content {
+        width: 400px !important;
+        border-radius: 40px !important;
+      }
+    </style>
+    <div class="container-scroller">
+      <%- include('layouts/header_navbar') %>
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <%- include('layouts/sidebar') %>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="card">
+              <div class="card-body">
+                <h2><center>Users</center></h2>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table" id="myTable">
+                        <thead>
+                          <tr>
+                            <th>Order #</th>
+                            <th>Name</th>
+                            <th>Birth Date</th>
+                            <th>Age</th>
+                            <th>email</th>
+                            <th>Phone Number</th>
+                            <th>Address</th>
+                            <th>Gender</th>
+                            <th>Like To Date</th>
+                            <th>Profile Image</th>
+                            <th>Social Link</th>
+                            <th>Referral Code</th>
+                            <th>Date of joined</th>
+                            <th>Approve Status</th>
+                            <th>Block Count</th>
+                            <th>Cancelled dates in past 30 days</th>
+                            <th>Action</th>
+                            <th>Date History</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="modal fade"
+                  id="exampleModalCenter"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-body text-center">
+                        <img id="modalImage" src="" alt="Selected image" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <%- include('layouts/footer') %>
+    <script>
+      function openModal(imageUrl) {
+        // Update the modal content with the selected image
+        document.getElementById("modalImage").src = imageUrl;
+
+        // Show the modal
+        $("#exampleModalCenter").modal("show");
+      }
+    </script>
+    <script type="text/javascript">
+      function blockUnblockUser(status, url) {
+        swal(
+          {
+            title: `Are you sure you want to ${
+              status == 0 ? "unblock" : "block"
+            } this user?`,
+            type: "warning",
+            html: true,
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: `Yes, ${status == 0 ? "unblock" : "block"} it!`,
+            closeOnConfirm: false,
+          },
+          function (isConfirm) {
+            if (!isConfirm) return;
+
+            $.ajax({
+              url,
+              type: "POST",
+              dataType: "html",
+              data: {
+                status,
+              },
+              success: function (result) {
+                swal(
+                  "Done!",
+                  `User has been ${status == 0 ? "unblocked" : "blocked"}!`,
+                  "success"
+                );
+                $("#myTable").DataTable().ajax.reload();
+              },
+              error: function (xhr, ajaxOptions, thrownError) {
+                swal(
+                  `Error in ${status == 0 ? "unblocking" : "blocking"}!`,
+                  "Please try again",
+                  "error"
+                );
+              },
+            });
+          }
+        );
+      }
+
+      $(document).ready(function () {
+        function renderWithHyphen(data) {
+          return data ? data : "-";
+        }
+        $("#myTable").DataTable({
+          responsive: true,
+          autoWidth: true,
+          processing: true,
+          ordering: false,
+          scroller: true,
+          searching: true,
+          serverSide: true,
+          scrollX: true,
+          scrollCollapse: true,
+          ajax: {
+            url: "/admin/user/all/1",
+          },
+          columns: [
+            {
+              render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+              },
+            },
+            { data: "name", render: renderWithHyphen },
+            {
+              data: "birthDate",
+              render: function (data) {
+                if (data) {
+                  var dateObject = new Date(data);
+
+                  var options = {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  };
+                  var formattedDate = dateObject.toLocaleDateString(
+                    navigator.language,
+                    options
+                  );
+
+                  return formattedDate;
+                } else {
+                  return " -";
+                }
+              },
+            },
+            {
+              data: "birthDate",
+              render: function (data) {
+                if (data) {
+                  var birthdate = new Date(data);
+                  var currentDate = new Date();
+
+                  // Calculate age
+                  var age = currentDate.getFullYear() - birthdate.getFullYear();
+                  return age;
+                } else {
+                  return " -";
+                }
+              },
+            },
+            { data: "email", render: renderWithHyphen },
+            {
+              render: function (data, type, row) {
+                return row && row.phone && row.countryCode
+                  ? `${row.countryCode}${row.phone}`
+                  : "-";
+              },
+            },
+            { data: "address", render: renderWithHyphen },
+            {
+              data: "gender",
+              render: function (data, type, row) {
+                if (Array.isArray(row.gender) && row.gender.length > 0) {
+                  const genderLabels = row.gender.map((g) => {
+                    if (g === 0) {
+                      return "Man";
+                    } else if (g === 1) {
+                      return "Woman";
+                    } else if (g === 2) {
+                      return "Nonbinary";
+                    } else {
+                      return "-";
+                    }
+                  });
+                  return genderLabels.join(", ");
+                } else {
+                  return "-";
+                }
+              },
+            },
+            {
+              data: "likeToDate",
+              render: function (data, type, row) {
+                if (
+                  Array.isArray(row.likeToDate) &&
+                  row.likeToDate.length > 0
+                ) {
+                  const genderLabels = row.likeToDate.map((g) => {
+                    if (g === 0) {
+                      return "Men";
+                    } else if (g === 1) {
+                      return "Women";
+                    } else if (g === 2) {
+                      return "Nonbinary";
+                    } else {
+                      return "-";
+                    }
+                  });
+                  return genderLabels.join(", ");
+                } else {
+                  return "-";
+                }
+              },
+            },
+            {
+              render: function (data, type, row) {
+                return row && row.profileImage
+                  ? `<img onClick="openModal('<%= process.env.BASE_URL %>/${row.profileImage}')" class="thumbnail" src=` +
+                      `<%= process.env.BASE_URL %>/${row.profileImage}` +
+                      ">"
+                  : "-";
+              },
+            },
+            {
+              render: function (data, type, row) {
+                return row && row.socialLink
+                  ? `<a href="${row.socialLink}" target="_blank">${row.socialLink}</a>`
+                  : "-";
+              },
+            },
+            { data: "referralCode", render: renderWithHyphen },
+            {
+              data: "created_at",
+              render: function (data) {
+                if (data) {
+                  var dateObject = new Date(data);
+
+                  var options = {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  };
+                  var formattedDate = dateObject.toLocaleDateString(
+                    navigator.language,
+                    options
+                  );
+
+                  return formattedDate;
+                } else {
+                  return " -";
+                }
+              },
+            },
+            {
+              render: function (data, type, row) {
+                if (row.approvedStatus == 1) {
+                  return `<div class="badge badge-success">Approved</div>`;
+                } else if (row.approvedStatus == 2) {
+                  return `<div class="badge badge-danger">Rejected</div>`;
+                }
+              },
+            },
+            {
+              render: function (data, type, row) {
+                return row && row.blockData
+                  ? row.blockData.length > 4
+                    ? `<div
+                      class="badge badge-danger"
+                    >
+                      ${row.blockData.length}
+                    </div>`
+                    : row.blockData.length
+                  : 0;
+              },
+            },
+            {
+              render: function (data, type, row) {
+                return row && row.cancelDates
+                  ? row.cancelDates.length > 2
+                    ? `<div
+                      class="badge badge-danger"
+                    >
+                      ${row.cancelDates.length}
+                    </div>`
+                    : row.cancelDates.length
+                  : 0;
+              },
+            },
+            {
+              render: function (data, type, row) {
+                if (row.isBlocked == 0) {
+                  return `<div class="badge badge-danger" onClick="blockUnblockUser(1 , '/admin/user/action/${row._id}')" >Block</div>`;
+                } else if (row.isBlocked == 1) {
+                  return `<div class="badge badge-success"  onClick="blockUnblockUser(0 , '/admin/user/action/${row._id}')">Unblock</div>`;
+                }
+              },
+            },
+            {
+              render: function (data, type, row) {
+                return `<a href="<%= process.env.ADMIN_BASE_URL %>/user/date-history/${row._id}"> View`;
+              },
+            },
+          ],
+          columnDefs: [
+            { width: "80px", targets: [0, 10, 3, 14, 16] },
+            { width: "130px", targets: [1, 2, 7, 8, 9, 12, 11, 13, 17] },
+            { width: "150px", targets: [4, 5, 6] },
+            { width: "230px", targets: [15] },
+          ],
+        });
+      });
+    </script>
+  </body>
+</html>

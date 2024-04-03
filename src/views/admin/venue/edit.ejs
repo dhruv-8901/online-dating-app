@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layouts/header') %>
+  <body>
+    <style>
+      .form-label-text {
+        font-size: 16px !important;
+        width: 100px !important;
+      }
+
+      .custom-btn {
+        width: 100px;
+      }
+
+      #venue-time {
+        padding: 20px;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        width: fit-content;
+      }
+
+      #venue-time .custom-margin:not(:last-child) {
+        margin-bottom: 20px;
+      }
+
+      .custom-form-text {
+        top: -10px;
+        background: #fff;
+        padding: 0 10px;
+      }
+    </style>
+    <div class="container-scroller">
+      <%- include('../layouts/header_navbar') %>
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <%- include('../layouts/sidebar') %>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="card col-sm-6 col-12">
+              <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title mt-4">Edit Venue</h4>
+                    <form
+                      class="form-sample mt-4"
+                      id="edit-venue"
+                      method="post"
+                    >
+                      <div class="d-flex align-items-center mb-3">
+                        <label for="venue" class="form-label-text mb-0"
+                          >venue</label
+                        >
+                        <div class="w-75">
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="venue"
+                            name="venue"
+                            value="<%- venue %> "
+                            placeholder="Vincent, Darlinghurst"
+                          />
+                        </div>
+                      </div>
+                      <div id="venue-time" class="position-relative mt-4">
+                        <p class="custom-form-text position-absolute">
+                          Venue Timing
+                        </p>
+                        <% for(let i = 0; i < 7; i++) { %> <% var days = [
+                        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                        "Saturday", "Sunday", ]; %> <% const day = days[i]; %>
+                        <% const dayLowerCase = day.toLowerCase(); %> <% const
+                        timeExists = venueTiming.find(item => item.day === i);
+                        %>
+                        <div class="d-flex align-items-center custom-margin">
+                          <label for="venue" class="form-label-text mb-0"
+                            ><%= day %></label
+                          >
+                          <div class="mr-2">
+                            <input
+                              type="time"
+                              class="form-control dateTime"
+                              id="<%= dayLowerCase %>Start"
+                              name="<%= dayLowerCase %>Start"
+                              placeholder="Start time"
+                              value="<%= timeExists ? timeExists.startTime : null %>"
+                            />
+                          </div>
+                          <div class="">
+                            <input
+                              type="time"
+                              class="form-control dateTime"
+                              id="<%= dayLowerCase %>End"
+                              name="<%= dayLowerCase %>End"
+                              value="<%= timeExists ? timeExists.endTime : null %>"
+                              placeholder="End time"
+                            />
+                          </div>
+                        </div>
+                        <% } %>
+                      </div>
+                      <div class="mt-4 mb-2">
+                        <button
+                          type="submit"
+                          class="btn btn-primary custom-btn mr-4"
+                        >
+                          Update
+                        </button>
+                        <a
+                          class="btn btn-primary custom-btn mr-4"
+                          href="<%= process.env.ADMIN_BASE_URL %>/venue"
+                        >
+                          Cancel
+                        </a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <%- include('../layouts/footer') %>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+      integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="text/javascript">
+      function handleInputChange(e) {
+        console.log(e.target.value);
+        let hour = e.target.value.split(":")[0];
+        e.target.value = `${hour}:00`;
+      }
+
+      const timeInput = document.getElementsByClassName("dateTime");
+
+      for (let i = 0; i < timeInput.length; i++) {
+        timeInput[i].addEventListener("input", handleInputChange);
+      }
+
+      $(document).ready(function () {
+        var currentURL = window.location.href;
+        var days = [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ];
+        $(function () {
+          $("#edit-venue").validate({
+            // Specify validation rules
+            rules: {
+              venue: {
+                required: true,
+              },
+            },
+          });
+
+          $("#edit-venue").submit(function (event) {
+            event.preventDefault();
+            const venue = $("#venue").val();
+            const dateTimeArray = [];
+
+            // Loop through each day
+            for (let i = 0; i <= 6; i++) {
+              const day = days[i];
+              const dayLowerCase = day.toLowerCase();
+
+              // Get values from input fields
+              const startTime = $(`#${dayLowerCase}Start`).val();
+              const endTime = $(`#${dayLowerCase}End`).val();
+
+              // Create an object and push it to the dataArray
+              dateTimeArray.push({
+                day: i,
+                startTime: startTime,
+                endTime: endTime,
+              });
+            }
+
+            const formData = {
+              venue,
+              dateTimeArray,
+            };
+
+            if ($(this).valid()) {
+              $(".loader").show();
+              $.ajax({
+                type: "POST",
+                url: currentURL,
+                data: JSON.stringify(formData),
+                success: function (response) {
+                  // Handle the response here
+                  window.location.href =
+                    "<%= process.env.ADMIN_BASE_URL %>/venue";
+                  $(".loader").hide();
+                },
+                error: function (error) {
+                  $(".loader").hide();
+                  console.log(error.responseJSON.message);
+                  toastr.error(error.responseJSON.message);
+                },
+              });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

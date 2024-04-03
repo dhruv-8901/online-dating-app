@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layouts/header') %>
+
+  <style>
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5%;
+    }
+    .select2-results__option {
+      cursor: pointer;
+      margin-left: 10px !important;
+    }
+
+    select.select2 {
+      width: 300px;
+    }
+    .select2-container--default
+      .select2-results__option--highlighted[aria-selected] {
+      background-color: transparent;
+      color: #fff !important;
+    }
+    .select2-container--default .select2-results__option[aria-selected="true"] {
+      background-color: transparent;
+    }
+
+    .select2-results__option[aria-selected] {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+    .select2-container--default .select2-selection--single {
+      background-color: #000 !important;
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      height: 50px;
+      padding: 10px;
+    }
+    .select2-container--default
+      .select2-selection--single
+      .select2-selection__rendered {
+      color: #fff;
+      line-height: 28px;
+    }
+    .select2-container--open .select2-dropdown--below {
+      background-color: #000 !important;
+      color: #fff !important;
+    }
+    .select2-container--default
+      .select2-selection--single
+      .select2-selection__arrow {
+      height: 26px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+    }
+    .select2-container {
+      width: 250px !important;
+    }
+    .select2-dropdown {
+      border-radius: 10px;
+    }
+    .custom-datepicker {
+      width: fit-content;
+    }
+  </style>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+  />
+  <body>
+    <div class="container-scroller">
+      <%- include('../layouts/header_navbar') %>
+
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <%- include('../layouts/sidebar') %>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="card">
+              <div class="card-body">
+                <div
+                  class="col-12 d-flex justify-content-between align-items-center"
+                >
+                  <input
+                    type="text"
+                    name="datetimes"
+                    class="custom-datepicker form-control"
+                  />
+                  <select
+                    class="select2 btn btn-dark dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdow"
+                    name="venue"
+                    id="venue"
+                    onchange="venueChange(this)"
+                  >
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuSizeButton2"
+                    >
+                      <option
+                        class="dropdown-item text-white"
+                        value="0"
+                        selected
+                      >
+                        All Venues
+                      </option>
+                      <% for(var i in venueData) { %>
+                      <option
+                        class="dropdown-item text-white"
+                        value="<%= venueData[i]._id %>"
+                      >
+                        <%= venueData[i].venue %>
+                      </option>
+                      <% } %>
+                    </div>
+                  </select>
+                </div>
+                <h2><center>Dates list</center></h2>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table" id="myTable">
+                        <thead>
+                          <tr>
+                            <th>Order #</th>
+                            <th>User's Name</th>
+                            <th>Partner's Name</th>
+                            <th>venue</th>
+                            <th>status</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <%- include('../layouts/footer') %>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+      function venueChange(selectElement) {
+        $("#myTable").DataTable().ajax.reload();
+      }
+      $(document).ready(function () {
+        let startDate;
+        let endDate;
+        $("input[name='datetimes']").daterangepicker(
+          {},
+          function (start, end, label) {
+            startDate = start.format("YYYY-MM-DD").toString();
+            endDate = end.format("YYYY-MM-DD").toString();
+            $("#myTable").DataTable().ajax.reload();
+          }
+        );
+        $(".select2").select2({
+          minimumResultsForSearch: -1,
+        });
+
+        var url = window.location.href;
+        function renderWithHyphen(data) {
+          return data ? data : "-";
+        }
+        $("#myTable").DataTable({
+          processing: true,
+          ordering: false,
+          scroller: true,
+          searching: true,
+          scrollY: "500px",
+          scrollCollapse: true,
+          serverSide: true,
+          ajax: {
+            url: url + "/all",
+            data: function (data) {
+              data.venueId = $("#venue").val() !== "0" ? $("#venue").val() : "";
+              data.startDate = startDate;
+              data.endDate = endDate;
+            },
+          },
+          columns: [
+            {
+              render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+              },
+            },
+            { data: "userDetails.name", render: renderWithHyphen },
+            { data: "partnerDetails.name", render: renderWithHyphen },
+            { data: "venueDetails.venue", render: renderWithHyphen },
+            {
+              render: function (data, type, row) {
+                if (row.status == 5) {
+                  return `<div class="badge badge-success">Complete</div>`;
+                } else if (row.status == 3) {
+                  return `<div class="badge badge-danger">Cancel</div>`;
+                } else {
+                  return `<div class="badge badge-warning">Pending</div>`;
+                }
+              },
+            },
+            {
+              data: "dateAndTime",
+              render: function (data, type, row) {
+                var date = new Date(row.dateAndTime);
+                var options = {
+                  timeZone: "Australia/Sydney",
+                  hour12: false,
+                  weekday: "short",
+                  month: "short",
+                  day: "2-digit",
+                };
+
+                var formattedDate = date.toLocaleString("en-AU", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                });
+                return formattedDate;
+              },
+            },
+            {
+              data: "dateAndTime",
+              render: function (data, type, row) {
+                var date = new Date(row.dateAndTime);
+                var options = {
+                  timeZone: "Australia/Sydney",
+                  hour12: true,
+                  hour: "2-digit",
+                  minute: "2-digit",
+                };
+
+                var formattedDate = date.toLocaleString("en-AU", options);
+                return formattedDate;
+              },
+            },
+          ],
+        });
+      });
+    </script>
+  </body>
+</html>

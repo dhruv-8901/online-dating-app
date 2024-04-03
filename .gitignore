@@ -1,0 +1,7 @@
+node_modules
+.env
+dist
+media
+src/chat/store/data.json
+src/chat/store/connected-user.json
+online-b8847-firebase-adminsdk-d8ma2-d6a8715329.json
